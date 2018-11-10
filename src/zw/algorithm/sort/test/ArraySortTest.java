@@ -2,96 +2,199 @@ package zw.algorithm.sort.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 
 import zw.algorithm.sort.ArraySort;
 
 class ArraySortTest {
 
+	int[] testData1 = new int[] {6, 5,7, 8,4, 3, 2, 1};
+	int[] testData1ResultAsc = new int[testData1.length];
+	int[] testData1ResultDes = new int[testData1.length];
+	
+	@BeforeEach
+	void BeforeTestExecution() {
+		testData1ResultAsc = Arrays.copyOf(testData1, testData1.length);
+		Arrays.sort(testData1ResultAsc);
+		for (int i = 0, j = testData1ResultAsc.length -1; j >= 0; i++,j--) {
+			testData1ResultDes[i] = testData1ResultAsc[j];
+		}
+	}
+	
 	@Test
 	void testBubbleSortAsc() {
-		System.out.println("Ã°ÅÝÅÅÐò-ÉýÐò£º");
-		double[] testArray1 = new double[]{7,6,5,4,3,2,1};
-		ArraySort.bubbleSortAsc(testArray1);
-		for (double d : testArray1) {
-			System.out.print(d + " ");
+		System.out.print("Ã°ÅÝÅÅÐò-ÉýÐò£º");
+		int[] testArray = testData1;
+		ArraySort.bubbleSortAsc(testArray);
+		for (int i = 0; i < testArray.length; i++) {
+			if (testArray[i] != testData1ResultAsc[i]) {
+				fail("ÅÅÐò´íÎó");
+				break;
+			}
+		}
+		for (int i : testArray) {
+			System.out.print(i + " ");
 		}
 		System.out.println();
 	}
 	
 	@Test
 	void testBubbleSortDes() {
-		System.out.println("Ã°ÅÝÅÅÐò-½µÐò£º");
-		double[] testArray1 = new double[]{1,2,3,4,5,6,7};
-		ArraySort.bubbleSortDes(testArray1);
-		for (double d : testArray1) {
-			System.out.print(d + " ");
+		System.out.print("Ã°ÅÝÅÅÐò-½µÐò£º");
+		int[] testArray = testData1;
+		ArraySort.bubbleSortDes(testArray);
+		for (int i = 0; i < testArray.length; i++) {
+			if (testArray[i] != testData1ResultDes[i]) {
+				fail("ÅÅÐò´íÎó");
+				break;
+			}
+		}
+		for (int i : testArray) {
+			System.out.print(i + " ");
 		}
 		System.out.println();
 	}
 	
 	@Test
 	void testSelectSortAsc() {
-		System.out.println("Ñ¡ÔñÅÅÐò-ÉýÐò£º");
-		double[] testArray1 = new double[]{7,6,5,4,3,2,1};
-		ArraySort.selectSortAsc(testArray1);
-		for (double d : testArray1) {
-			System.out.print(d + " ");
+		System.out.print("Ñ¡ÔñÅÅÐò-ÉýÐò£º");
+		int[] testArray = testData1;
+		ArraySort.selectSortAsc(testArray);
+		for (int i = 0; i < testArray.length; i++) {
+			if (testArray[i] != testData1ResultAsc[i]) {
+				fail("ÅÅÐò´íÎó");
+				break;
+			}
+		}
+		for (int i : testArray) {
+			System.out.print(i + " ");
 		}
 		System.out.println();
 	}
 	
 	@Test
 	void testSelectSortDes() {
-		System.out.println("Ñ¡ÔñÅÅÐò-½µÐò£º");
-		double[] testArray1 = new double[]{1,2,3,4,5,6,7};
-		ArraySort.selectSortDes(testArray1);
-		for (double d : testArray1) {
-			System.out.print(d + " ");
+		System.out.print("Ñ¡ÔñÅÅÐò-½µÐò£º");
+		int[] testArray = testData1;
+		ArraySort.selectSortDes(testArray);
+		for (int i = 0; i < testArray.length; i++) {
+			if (testArray[i] != testData1ResultDes[i]) {
+				fail("ÅÅÐò´íÎó");
+				break;
+			}
+		}
+		for (int i : testArray) {
+			System.out.print(i + " ");
 		}
 		System.out.println();
 	}
 	
 	@Test
 	void testInsertionSortAsc() {
-		System.out.println("²åÈëÅÅÐò-ÉýÐò£º");
-		double[] testArray1 = new double[]{7,6,5,4,3,2,1};
-		ArraySort.insertionSortAsc(testArray1);
-		for (double d : testArray1) {
-			System.out.print(d + " ");
+		System.out.print("²åÈëÅÅÐò-ÉýÐò£º");
+		int[] testArray = testData1;
+		ArraySort.insertionSortAsc(testArray);
+		for (int i = 0; i < testArray.length; i++) {
+			if (testArray[i] != testData1ResultAsc[i]) {
+				fail("ÅÅÐò´íÎó");
+				break;
+			}
+		}
+		for (int i : testArray) {
+			System.out.print(i + " ");
 		}
 		System.out.println();
 	}
 	
 	@Test
 	void testInsertionSortDes() {
-		System.out.println("²åÈëÅÅÐò-½µÐò£º");
-		double[] testArray1 = new double[]{1,2,3,4,5,6,7};
-		ArraySort.insertionSortDes(testArray1);
-		for (double d : testArray1) {
-			System.out.print(d + " ");
+		System.out.print("²åÈëÅÅÐò-½µÐò£º");
+		int[] testArray = testData1;
+		ArraySort.insertionSortDes(testArray);
+		for (int i = 0; i < testArray.length; i++) {
+			if (testArray[i] != testData1ResultDes[i]) {
+				fail("ÅÅÐò´íÎó");
+				break;
+			}
+		}
+		for (int i : testArray) {
+			System.out.print(i + " ");
 		}
 		System.out.println();
 	}
 	
 	@Test
-	void testshellSortAsc() {
-		System.out.println("Ï£¶ûÅÅÐò-ÉýÐò£º");
-		double[] testArray1 = new double[]{7,6,5,4,3,2,1};
-		ArraySort.shellSortAsc(testArray1);
-		for (double d : testArray1) {
-			System.out.print(d + " ");
+	void testShellSortAsc() {
+		System.out.print("Ï£¶ûÅÅÐò-ÉýÐò£º");
+		int[] testArray = testData1;
+		ArraySort.shellSortAsc(testArray);
+		for (int i = 0; i < testArray.length; i++) {
+			if (testArray[i] != testData1ResultAsc[i]) {
+				fail("ÅÅÐò´íÎó");
+				break;
+			}
+		}
+		for (int i : testArray) {
+			System.out.print(i + " ");
 		}
 		System.out.println();
 	}
 	
 	@Test
-	void testshellSortDes() {
-		System.out.println("Ï£¶ûÅÅÐò-½µÐò£º");
-		double[] testArray1 = new double[]{1,2,3,4,5,6,7};
-		ArraySort.shellSortDes(testArray1);
-		for (double d : testArray1) {
-			System.out.print(d + " ");
+	void testShellSortDes() {
+		System.out.print("Ï£¶ûÅÅÐò-½µÐò£º");
+		int[] testArray = testData1;
+		ArraySort.shellSortDes(testArray);
+		for (int i = 0; i < testArray.length; i++) {
+			if (testArray[i] != testData1ResultDes[i]) {
+				fail("ÅÅÐò´íÎó");
+				break;
+			}
+		}
+		for (int i : testArray) {
+			System.out.print(i + " ");
+		}
+		System.out.println();
+	}
+	
+	@Test
+	void testHeapSortAsc() {
+		System.out.print("¶ÑÅÅÐò-ÉýÐò£º");
+		int[] testArray = testData1;
+		ArraySort.heapSortAsc(testArray);
+		for (int i = 0; i < testArray.length; i++) {
+			if (testArray[i] != testData1ResultAsc[i]) {
+				fail("ÅÅÐò´íÎó");
+				break;
+			}
+		}
+		for (int i : testArray) {
+			System.out.print(i + " ");
+		}
+		System.out.println();
+	}
+	
+	@Test
+	void testHeapSortDes() {
+		System.out.print("¶ÑÅÅÐò-½µÐò£º");
+		int[] testArray = testData1;
+		ArraySort.heapSortDes(testArray);
+		for (int i = 0; i < testArray.length; i++) {
+			if (testArray[i] != testData1ResultDes[i]) {
+				fail("ÅÅÐò´íÎó");
+				break;
+			}
+		}
+		for (int i : testArray) {
+			System.out.print(i + " ");
 		}
 		System.out.println();
 	}
