@@ -178,7 +178,7 @@ public class ArraySort {
 	/**
 	 * @param arr
 	 * 堆排序，升序
-	 * 时间复杂度O(N*lgN)
+	 * 时间复杂度O(N*log2(N))
 	 */
 	public static void heapSortAsc(int[] arr) {
 		//1.构建大根堆
@@ -212,7 +212,7 @@ public class ArraySort {
 	 */
 	private static void maxHeapDown(int[] arr, int start, int end) {
 		// TODO Auto-generated method stub
-		for(int l = start * 2 + 1; l < end; l = l * 2 + 1) {
+		for(int l = start * 2 + 1; l <= end; l = l * 2 + 1) {
 			//l是左子节点，l+1是右子节点
 			if(l + 1 <= end) {//右节点存在
 				if(arr[l] < arr[l + 1]) {
@@ -229,7 +229,7 @@ public class ArraySort {
 	/**
 	 * @param arr
 	 * 堆排序，降序
-	 * 时间复杂度O(N*lgN)
+	 * 时间复杂度O(N*log2(N))
 	 */
 	public static void heapSortDes(int[] arr) {
 		//1.构建小根堆
