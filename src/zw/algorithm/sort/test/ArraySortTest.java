@@ -198,4 +198,38 @@ class ArraySortTest {
 		}
 		System.out.println();
 	}
+	
+	@Test
+	void testquickSortAsc() {
+		System.out.print("¿ìËÙÅÅĞò-ÉıĞò£º");
+		int[] testArray = testData1;
+		ArraySort.quickSortAsc(testArray);
+		for (int i = 0; i < testArray.length; i++) {
+			if (testArray[i] != testData1ResultAsc[i]) {
+				fail("ÅÅĞò´íÎó");
+				break;
+			}
+		}
+		for (int i : testArray) {
+			System.out.print(i + " ");
+		}
+		System.out.println();
+	}
+	
+	@Test
+	void testquickSortDes() {
+		System.out.print("¿ìËÙÅÅĞò-½µĞò£º");
+		int[] testArray = testData1;
+		ArraySort.quickSortDes(testArray);
+		for (int i = 0; i < testArray.length; i++) {
+			if (testArray[i] != testData1ResultDes[i]) {
+				fail("ÅÅĞò´íÎó");
+				break;
+			}
+		}
+		for (int i : testArray) {
+			System.out.print(i + " ");
+		}
+		System.out.println();
+	}
 }

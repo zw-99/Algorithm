@@ -276,4 +276,91 @@ public class ArraySort {
 			}
 		}
 	}
+	
+	/**
+	 * @param arr
+	 * 快速排序，升序
+	 */
+	public static void quickSortAsc(int[] arr) {
+		quickSortAsc(arr, 0, arr.length - 1);
+	}
+
+	private static void quickSortAsc(int[] arr, int left, int right) {
+		// TODO Auto-generated method stub
+		int basicPoint = 0;	//选择基准元素
+		if (left < right) {	//递归调用快速排序
+			basicPoint = partitionAsc(arr, left, right);
+			quickSortAsc(arr, left, basicPoint - 1);
+			quickSortAsc(arr, basicPoint + 1, right);
+		}
+	}
+	
+	/**
+	 * @param arr
+	 * @param left
+	 * @param right
+	 * @return	返回基准索引
+	 * 
+	 */
+	private static int partitionAsc(int[] arr, int left, int right)
+	{
+		int key = left;
+		while (left < right) {
+			while(left < right && arr[right] >= arr[key]) {	//右指针
+				right--;
+			}
+			while(left < right && arr[left] <= arr[key]) {	//左指针
+				left++;
+			}
+			if (left >= right) {	//左右两指针相遇则退出移位
+				break;
+			}
+			Util.arrayElementSwap(arr, left, right);	//交换左右指针元素位置
+		}
+		Util.arrayElementSwap(arr, key, left);	//最后将基准元素放到对应位置	
+		return left;
+	}
+	
+	/**
+	 * @param arr
+	 * 快速排序，降序
+	 */
+	public static void quickSortDes(int[] arr) {
+		quickSortDes(arr, 0, arr.length - 1);
+	}
+
+	private static void quickSortDes(int[] arr, int left, int right) {
+		// TODO Auto-generated method stub
+		int basicPoint = 0;	//选择基准元素
+		if (left < right) {	//递归调用快速排序
+			basicPoint = partitionDes(arr, left, right);
+			quickSortDes(arr, left, basicPoint - 1);
+			quickSortDes(arr, basicPoint + 1, right);
+		}
+	}
+	
+	/**
+	 * @param arr
+	 * @param left
+	 * @param right
+	 * @return	返回基准索引
+	 */
+	private static int partitionDes(int[] arr, int left, int right)
+	{
+		int key = left;
+		while (left < right) {
+			while(left < right && arr[right] <= arr[key]) {	//右指针
+				right--;
+			}
+			while(left < right && arr[left] >= arr[key]) {	//左指针
+				left++;
+			}
+			if (left >= right) {	//左右两指针相遇则退出移位
+				break;
+			}
+			Util.arrayElementSwap(arr, left, right);	//交换左右指针元素位置
+		}
+		Util.arrayElementSwap(arr, key, left);	//最后将基准元素放到对应位置	
+		return left;
+	}
 }
