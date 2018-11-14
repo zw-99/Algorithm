@@ -16,7 +16,7 @@ import zw.algorithm.sort.ArraySort;
 
 class ArraySortTest {
 
-	int[] testData1 = new int[] {6, 5,7, 8,4, 3, 2, 1};
+	int[] testData1 = new int[] {6, 5,7, 8,4, 3, 2, 1, 1};
 	int[] testData1ResultAsc = new int[testData1.length];
 	int[] testData1ResultDes = new int[testData1.length];
 	
@@ -221,6 +221,40 @@ class ArraySortTest {
 		System.out.print("øÏÀŸ≈≈–Ú-Ωµ–Ú£∫");
 		int[] testArray = testData1;
 		ArraySort.quickSortDes(testArray);
+		for (int i = 0; i < testArray.length; i++) {
+			if (testArray[i] != testData1ResultDes[i]) {
+				fail("≈≈–Ú¥ÌŒÛ");
+				break;
+			}
+		}
+		for (int i : testArray) {
+			System.out.print(i + " ");
+		}
+		System.out.println();
+	}
+	
+	@Test
+	void testmergeSortAsc() {
+		System.out.print("πÈ≤¢≈≈–Ú-…˝–Ú£∫");
+		int[] testArray = testData1;
+		ArraySort.mergeSortAsc(testArray);
+		for (int i = 0; i < testArray.length; i++) {
+			if (testArray[i] != testData1ResultAsc[i]) {
+				fail("≈≈–Ú¥ÌŒÛ");
+				break;
+			}
+		}
+		for (int i : testArray) {
+			System.out.print(i + " ");
+		}
+		System.out.println();
+	}
+	
+	@Test
+	void testmergeSortDes() {
+		System.out.print("πÈ≤¢≈≈–Ú-Ωµ–Ú£∫");
+		int[] testArray = testData1;
+		ArraySort.mergeSortDes(testArray);
 		for (int i = 0; i < testArray.length; i++) {
 			if (testArray[i] != testData1ResultDes[i]) {
 				fail("≈≈–Ú¥ÌŒÛ");

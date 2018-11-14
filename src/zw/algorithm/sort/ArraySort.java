@@ -9,8 +9,8 @@ import zw.algorithm.util.*;
 public class ArraySort {
 	
 	/**
-	 * @param arr
 	 * 冒泡排序法,升序
+	 * @param arr
 	 */
 	public static void bubbleSortAsc(double[] arr) {
 		for(int i = 0; i < arr.length - 1; i++) {
@@ -43,8 +43,9 @@ public class ArraySort {
 	}
 	
 	/**
-	 * @param arr
 	 * 冒泡排序法,降序
+	 * @param arr
+	 * 
 	 */
 	public static void bubbleSortDes(double[] arr) {
 		for(int i = 0; i < arr.length - 1; i++) {
@@ -77,8 +78,9 @@ public class ArraySort {
 	}
 	
 	/**
-	 * @param arr
 	 * 选择排序，升序
+	 * @param arr
+	 * 
 	 */
 	public static void selectSortAsc(int[] arr) {
 		for(int i = 0; i < arr.length - 1; i++) {
@@ -94,8 +96,9 @@ public class ArraySort {
 	}
 	
 	/**
-	 * @param arr
 	 * 选择排序，降序
+	 * @param arr
+	 * 
 	 */
 	public static void selectSortDes(int[] arr) {
 		for(int i = 0; i < arr.length - 1; i++) {
@@ -111,8 +114,9 @@ public class ArraySort {
 	}
 	
 	/**
-	 * @param arr
 	 * 插入排序，升序
+	 * @param arr
+	 * 
 	 */
 	public static void insertionSortAsc(int[] arr) {
 		for(int i = 1; i < arr.length; i++) {
@@ -125,8 +129,9 @@ public class ArraySort {
 	}
 	
 	/**
-	 * @param arr
 	 * 插入排序，降序
+	 * @param arr
+	 * 
 	 */
 	public static void insertionSortDes(int[] arr) {
 		for(int i = 1; i < arr.length; i++) {
@@ -139,8 +144,8 @@ public class ArraySort {
 	}
 	
 	/**
-	 * @param arr
 	 * 希尔排序，升序
+	 * @param arr
 	 */
 	public static void shellSortAsc(int[] arr) {
 		int increment = 1;
@@ -157,8 +162,8 @@ public class ArraySort {
 	}	
 	
 	/**
-	 * @param arr
 	 * 希尔排序，降序
+	 * @param arr
 	 */
 	public static void shellSortDes(int[] arr) {
 		int increment = 1;
@@ -172,13 +177,12 @@ public class ArraySort {
 				}
 			}
 		}
-	}
-	
+	}	
 	
 	/**
-	 * @param arr
 	 * 堆排序，升序
 	 * 时间复杂度O(N*log2(N))
+	 * @param arr
 	 */
 	public static void heapSortAsc(int[] arr) {
 		//1.构建大根堆
@@ -192,14 +196,9 @@ public class ArraySort {
 			//重新构建大根堆
 			maxHeapDown(arr, 0, j - 1);
 		}
-	}
-	
+	}	
 	
 	/**
-	 * @param arr
-	 * @param i
-	 * @param j
-	 * 
 	 * (最大)堆的向下调整算法
 	 * 
 	 *  注：数组实现的堆中，第N个节点的左孩子的索引值是(2N+1)，右孩子的索引是(2N+2)。
@@ -209,6 +208,10 @@ public class ArraySort {
 	 *     a -- 待排序的数组
 	 *     start -- 被下调节点的起始位置(一般为0，表示从第1个开始)
 	 *     end   -- 截至范围(一般为数组中最后一个元素的索引)
+	 * @param arr
+	 * @param i
+	 * @param j
+	 * 
 	 */
 	private static void maxHeapDown(int[] arr, int start, int end) {
 		// TODO Auto-generated method stub
@@ -227,9 +230,9 @@ public class ArraySort {
 	}
 	
 	/**
-	 * @param arr
 	 * 堆排序，降序
 	 * 时间复杂度O(N*log2(N))
+	 * @param arr
 	 */
 	public static void heapSortDes(int[] arr) {
 		//1.构建小根堆
@@ -245,11 +248,7 @@ public class ArraySort {
 		}
 	}
 
-
 	 /**
-	 * @param arr
-	 * @param i
-	 * @param j
 	 * 
 	 * (最小)堆的向下调整算法
 	 * 
@@ -260,6 +259,9 @@ public class ArraySort {
 	 *     a -- 待排序的数组
 	 *     start -- 被下调节点的起始位置(一般为0，表示从第1个开始)
 	 *     end   -- 截至范围(一般为数组中最后一个元素的索引)
+	 * @param arr
+	 * @param i
+	 * @param j
 	 */
 	private static void minHeapDown(int[] arr, int start, int end) {
 		// TODO Auto-generated method stub
@@ -278,8 +280,9 @@ public class ArraySort {
 	}
 	
 	/**
-	 * @param arr
 	 * 快速排序，升序
+	 * @param arr
+	 * 
 	 */
 	public static void quickSortAsc(int[] arr) {
 		quickSortAsc(arr, 0, arr.length - 1);
@@ -322,8 +325,9 @@ public class ArraySort {
 	}
 	
 	/**
+	 *快速排序，降序
 	 * @param arr
-	 * 快速排序，降序
+
 	 */
 	public static void quickSortDes(int[] arr) {
 		quickSortDes(arr, 0, arr.length - 1);
@@ -362,5 +366,109 @@ public class ArraySort {
 		}
 		Util.arrayElementSwap(arr, key, left);	//最后将基准元素放到对应位置	
 		return left;
+	}
+	
+	public static void mergeSortAsc(int[] arr) {
+		mergeSortAsc(arr, 0, arr.length - 1, new int[arr.length]);	//在排序前，先建好一个长度等于原数组长度的临时数组，避免递归中频繁开辟空间
+	}
+	
+	/**
+	 * 归并排序，升序
+	 * 归并排序主要思想为分而治之
+	 * @param arr
+	 * @param left
+	 * @param right
+	 * @param temp
+	 */
+	private static void mergeSortAsc(int[] arr, int left, int right, int[] temp) {
+		if (left < right) {
+			int middle = (right + left) / 2;
+			mergeSortAsc(arr, left, middle, temp);	//左边归并排序，使左边序列有序
+			mergeSortAsc(arr, middle + 1, right, temp);	//右边归并排序，使右边序列有序
+			mergeAsc(arr, left, middle, right, temp);	//两个有序子数组合并操作
+		}
+	}
+	
+	/**
+	 * 合并操作，将两部分元素按顺序排列到temp数组中，再拷贝回原数组
+	 * @param arr
+	 * @param left
+	 * @param middle
+	 * @param right
+	 * @param temp
+	 */
+	private static void mergeAsc(int[] arr, int left, int middle, int right, int[] temp) {
+		int l = left;	//左序列指针
+		int r = middle + 1;	//右序列指针
+		int t = 0;	//临时数组的指针
+		while (l <= middle && r <= right) {
+			if (arr[l] <= arr[r]) {
+				temp[t++] = arr[l++];
+			} else {
+				temp[t++] = arr[r++];
+			}
+		}
+		while (l <= middle) {	//左边剩余元素填充到temp中
+			temp[t++] = arr[l++];
+		}
+		while (r <= right) {	//右边剩余元素填充到temp中
+			temp[t++] = arr[r++];
+		}
+		t = 0;
+		while (left <= right) {	//将temp的元素全部拷贝回原数组
+			arr[left++] = temp[t++];
+		}
+	}
+	
+	public static void mergeSortDes(int[] arr) {
+		mergeSortDes(arr, 0, arr.length - 1, new int[arr.length]);	//在排序前，先建好一个长度等于原数组长度的临时数组，避免递归中频繁开辟空间
+	}
+	
+	/**
+	 * 归并排序，升序
+	 * 归并排序主要思想为分而治之
+	 * @param arr
+	 * @param left
+	 * @param right
+	 * @param temp
+	 */
+	private static void mergeSortDes(int[] arr, int left, int right, int[] temp) {
+		if (left < right) {
+			int middle = (right + left) / 2;
+			mergeSortDes(arr, left, middle, temp);	//左边归并排序，使左边序列有序
+			mergeSortDes(arr, middle + 1, right, temp);	//右边归并排序，使右边序列有序
+			mergeDes(arr, left, middle, right, temp);	//两个有序子数组合并操作
+		}
+	}
+	
+	/**
+	 * 合并操作，将两部分元素按顺序排列到temp数组中，再拷贝回原数组
+	 * @param arr
+	 * @param left
+	 * @param middle
+	 * @param right
+	 * @param temp
+	 */
+	private static void mergeDes(int[] arr, int left, int middle, int right, int[] temp) {
+		int l = left;	//左序列指针
+		int r = middle + 1;	//右序列指针
+		int t = 0;	//临时数组的指针
+		while (l <= middle && r <= right) {
+			if (arr[l] >= arr[r]) {
+				temp[t++] = arr[l++];
+			} else {
+				temp[t++] = arr[r++];
+			}
+		}
+		while (l <= middle) {	//左边剩余元素填充到temp中
+			temp[t++] = arr[l++];
+		}
+		while (r <= right) {	//右边剩余元素填充到temp中
+			temp[t++] = arr[r++];
+		}
+		t = 0;
+		while (left <= right) {	//将temp的元素全部拷贝回原数组
+			arr[left++] = temp[t++];
+		}
 	}
 }
