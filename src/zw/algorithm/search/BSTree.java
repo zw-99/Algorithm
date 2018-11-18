@@ -260,4 +260,26 @@ public class BSTree<T extends Comparable<T>> {
 		}
 		return y;
 	}
+	
+	/**
+	 * Ïú»Ù¶þ²æÊ÷
+	 * 
+	 */
+	public void clear() {
+		destory(this.root);
+		this.root = null;
+	}
+
+	private void destory(Node<T> node) {
+		// TODO Auto-generated method stub
+		if (node == null) {
+			return;
+		}
+		if (node.left != null) {
+			destory(node.left);
+		} else if (node.right != null) {
+			destory(node.right);
+		}
+		node = null;	
+	}
 }
