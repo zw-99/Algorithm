@@ -203,28 +203,38 @@ public class BSTree<T extends Comparable<T>> {
 	 */
 	public void remove(T key) {
 		Node<T> n, node;
-		if ((n = search(key)) != null) {
-			if ((node = remove(this, n)) != null) {
-				node = null;
+		if ((n = search(key)) != null) {	// 获取要删除的结点
+			if ((node = remove(this, n)) != null) {	// 删除目标结点,并重建结点间的关系
+				node = null; // 将删除结点指向 null,真正完成结点的删除
 			}
 		}
 	}
 
+	/**
+	 * 删除结点有三种情况  
+	 * 1.删除结点没有左右子结点
+	 * 2.删除结点有左子结点 或 右子结点
+	 * 3.删除结点同时有左右子结点，通过寻找后继结点将当前情况转换为情况1，2
+	 * 
+	 * @param bsTree 二叉查找树
+	 * @param n 要删除的结点
+	 * @return 返回要删除的结点，将返回结点指向null便实现了删除结点
+	 */
 	private Node<T> remove(BSTree<T> bsTree, Node<T> n) {
 		// TODO Auto-generated method stub
-		Node<T> x = null;	//缓存要删除结点的子结点
-		Node<T> y = null;	//要删除的目标结点
-		if (n.left == null || n.right == null) {
+		Node<T> x = null;	// 缓存删除结点的子结点
+		Node<T> y = null;	// 要删除的目标结点
+		if (n.left == null || n.right == null) {	// 情况1，2
 			y = n;
-		} else {
+		} else {	// 情况3，需要找到删除结点的后继结点，将后继结点的值赋值给删除结点，再删除后继结点便间接实现了删除目标结点。
 			y = successor(n);
 		}
-		if (y.left != null) {
+		if (y.left != null) {	// 保留删除结点的子结点
 			x = y.left;
 		} else {
 			x = y.right;
 		}
-		if (x != null) {	//更换删除结点的子结点的父结点为删除结点的父结点
+		if (x != null) {	// 更换删除结点的子结点的父结点为删除结点的父结点
 			x.parent = y.parent;
 		}
 		if (y.parent == null) {	// 如果删除结点的父节点为空，则结点x为根节点
@@ -235,7 +245,7 @@ public class BSTree<T extends Comparable<T>> {
 			y.parent.right = x;
 		}
 		
-		if (y != n) 
+		if (y != n) // 针对情况3，将后继结点的值赋值给删除结点，再删除后继结点便间接实现了删除目标结点
 			n.key = y.key;
 		return y;
 	}
@@ -251,10 +261,31 @@ public class BSTree<T extends Comparable<T>> {
 			return minNode(n.right);
 		}
 		// 如果n没有右孩子。则x有以下两种可能：
-	    // (01) n是"一个左孩子"，则"n的后继结点"为 "它的父结点"。
-	    // (02) n是"一个右孩子"，则查找"n的最低的父结点，并且该父结点要具有左孩子"，找到的这个"最低的父结点"就是"n的后继结点"。
+	    // 1. n是"一个左孩子"，则"n的后继结点"为 "它的父结点"。
+	    // 2. n是"一个右孩子"，则查找"n的最低的父结点，并且该父结点要具有左孩子"，找到的这个"最低的父结点"就是"n的后继结点"。
 		Node<T> y = n.parent;
 		while ((y != null) && (y.right == n)) {
+			n = y;
+			y = y.parent;
+		}
+		return y;
+	}
+	
+	/**
+	 * 找结点(n)的前驱结点。即，查找"二叉树中数据值小于该结点"的"最大结点"。
+	 * @param n
+	 * @return
+	 */
+	public Node<T> predecessor(Node<T> n) {
+		// TODO Auto-generated method stub
+		if (n.left != null) {	// 如果x存在右孩子，则"n的后继结点"为 "以其右孩子为根的子树的最小结点"。
+			return minNode(n.left);
+		}
+		// 如果n没有右孩子。则x有以下两种可能：
+	    // 1. n是"一个右孩子"，则"n的前驱结点"为 "它的父结点"。
+	    // 2. n是"一个左孩子"，则查找"n的最低的父结点，并且该父结点要具有右孩子"，找到的这个"最低的父结点"就是"n的前驱结点"。
+		Node<T> y = n.parent;
+		while ((y != null) && (y.left == n)) {
 			n = y;
 			y = y.parent;
 		}
