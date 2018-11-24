@@ -38,6 +38,9 @@ public class RBTree<T extends Comparable<T>> {
 			this.left = left;
 			this.right = right;
 		}
+		public T getKey() {
+			return this.key;
+		}
 	}
 	
 	public RBTree() {
@@ -197,6 +200,21 @@ public class RBTree<T extends Comparable<T>> {
 	}
 	
 	/**
+	 * 找到指定节点开始的最小节点
+	 * @param n 起始节点
+	 * @return
+	 */
+	private RBTree<T>.RBTNode<T> minNode(RBTree<T>.RBTNode<T> n) {
+		if (n == null) {
+			return null;
+		}
+		while (n.left != null) {
+			n = n.left;
+		}
+		return n;
+	}
+	
+	/**
 	 * 插入新的键值
 	 * @param key 新值
 	 */
@@ -229,13 +247,14 @@ public class RBTree<T extends Comparable<T>> {
 		RBTNode<T> y = null;
 		while (x != null) {
 			y = x;
-			cmp = n.key.compareTo(y.key);
+			cmp = n.key.compareTo(x.key);
 			if (cmp < 0) {
 				x = x.left;
 			} else {
 				x = x.right;
 			}
 		}
+		n.parent = y;
 		if (y == null) {
 			this.root = n;
 		} else {
@@ -301,7 +320,7 @@ public class RBTree<T extends Comparable<T>> {
 					parent = temp;
 				}
 				// case3: 当前节点的父节点是红色，叔叔节点是黑色，且当前节点是其父节点的左孩子
-				setRed(parent);
+				setBlack(parent);
 				setRed(grandParent);
 				rightRotate(grandParent);
 			} else {	// 父节点是祖父节点的右孩子
@@ -323,11 +342,214 @@ public class RBTree<T extends Comparable<T>> {
 					parent = temp;
 				}
 				// case3: 当前节点的父节点是红色，叔叔节点是黑色，且当前节点是其父节点的右孩子
-				setRed(parent);
+				setBlack(parent);
 				setRed(grandParent);
 				leftRotate(grandParent);
 			}
 		}
 		setBlack(this.root);	//根节点设置为黑色
 	}
+	
+	public RBTNode<T> search(T key) {
+		return search(this.root, key);
+	}
+
+	/**
+	 * 在红黑树中查找目标值
+	 * 
+	 * @param n 开始查找的节点
+	 * @param key 查找的值
+	 * @return 查找结果
+	 */
+	private RBTree<T>.RBTNode<T> search(RBTree<T>.RBTNode<T> n, T key) {
+		// TODO Auto-generated method stub
+		if (n == null) {
+			return n;
+		}
+		int cmp = key.compareTo(n.key);
+		if (cmp < 0) {
+			return search(n.left, key);
+		} else if (cmp > 0) {
+			return search(n.right, key);
+		} else {
+			return n;
+		}
+	}
+	
+	public void remove(T key) {
+		RBTNode<T> node;
+		if ((node = search(key)) != null) {	// 先找到节点，再删除该节点
+			remove(node);
+			System.out.println("查看平衡性");
+			print();
+			System.out.println();
+		}
+	}
+
+	/**
+	 * 删除某个节点
+	 * 
+	 * 分为三种情况:
+	 * ① 被删除节点没有儿子，即为叶节点。那么，直接将该节点删除就OK了。
+	 * ② 被删除节点只有一个儿子。那么，直接删除该节点，并用该节点的唯一子节点顶替它的位置。
+	 * ③ 被删除节点有两个儿子。那么，先找出它的后继节点；然后把“它的后继节点的内容”复制给“该节点的内容”；之后，删除“它的后继节点”。
+	 * 在这里，后继节点相当于替身，在将后继节点的内容复制给"被删除节点"之后，再将后继节点删除。这样就巧妙的将问题转换为"删除后继节点"的情况了，下面就考虑后继节点。 
+	 * 在"被删除节点"有两个非空子节点的情况下，它的后继节点不可能是双子非空。既然"的后继节点"不可能双子都非空，就意味着"该节点的后继节点"要么没有儿子，要么只有一个儿子。
+	 * 若没有儿子，则按"情况① "进行处理；若只有一个儿子，则按"情况② "进行处理
+	 * @param n
+	 */
+	private void remove(RBTree<T>.RBTNode<T> n) {
+		// TODO Auto-generated method stub
+		RBTNode<T> replace;	// 用于取代被删除节点的位置
+		RBTNode<T> x; //缓存删除节点的子节点
+		if (n.left == null || n.right == null) {	// 没有或有一个子节点 
+			replace = n;
+		} else {	// 有两个子节点则找出后继节点
+			replace = successor(n);
+		}
+		if (replace.left != null) {	// 保留删除结点的子结点
+			x = replace.left;
+		} else {
+			x = replace.right;
+		}
+		if (x != null) {	// 更换删除结点的子结点的父结点为删除结点的父结点
+			x.parent = replace.parent;
+		}
+		if (replace.parent == null) {	// 如果replace的父节点为空，则表明replace是根节点
+			this.root = x;
+		} else if (replace == replace.parent.left) {	// 如果被删除结点是左子结点,重新设置父节点的左子节点
+			replace.parent.left = x;
+		} else {	// 如果被删除结点是右子结点,重新设置父节点的右子节点
+			replace.parent.right = x;
+		}
+		if (replace != n) // 将后继结点的值赋值给删除结点，再删除后继结点便间接实现了删除目标结点
+			n.key = replace.key;
+		if (getColor(replace) == BLACK) {
+			deleteFixUp(x);
+		}
+		replace = null;	
+	}
+
+	/**
+	 * 删除节点后红黑树失衡，重新平衡
+	 * @param n 待修正节点
+	 */
+	private void deleteFixUp(RBTree<T>.RBTNode<T> n) {
+		// TODO Auto-generated method stub
+		RBTNode<T> parent = n.parent;
+		RBTNode<T> w;	// 兄弟节点
+		while ((n == null || isBlack(n)) && (n != this.root)) {
+			if (n == parent.left) {		// n为左孩子
+				w = parent.right;
+				// case1: x是“黑+黑”节点，x的兄弟节点是红色。(此时x的父节点和x的兄弟节点的子节点都是黑节点)。
+				if (isRed(w)) {
+					setBlack(w);	// 兄弟节点设为黑色
+					setRed(parent);	// 父节点设为红色
+					leftRotate(parent);	// 父节点左旋
+					w = parent.right;	// 寻找新的兄弟节点
+				}
+				// case2: x是“黑+黑”节点，x的兄弟节点是黑色，x的兄弟节点的两个孩子都是黑色。
+				if ((w.left == null || isBlack(w.left)) && (w.right == null || isBlack(w.right))) {
+					setRed(w);	// 兄弟节点设为红色
+					n = parent;	// 找到新的当前节点
+					parent = getParent(n);	// 找到新的父节点
+				} else {
+					if (w.right == null || isBlack(w.right)) {		// case3 :x是“黑+黑”节点，x的兄弟节点是黑色；x的兄弟节点的左孩子是红色，右孩子是黑色的。
+						setBlack(w.left);	// 兄弟节点的左孩子变红
+						setRed(w);
+						rightRotate(w);		// 兄弟节点右旋
+						w = parent.right;	// 右旋后，重新设置x的兄弟节点。
+					}
+					// case4: x是“黑+黑”节点，x的兄弟节点是黑色；x的兄弟节点的右孩子是红色的。
+					setColor(w, getColor(parent));	// 将x父节点颜色 赋值给 x的兄弟节点。
+					setBlack(parent);	// 父节点设为“黑色”。
+					setBlack(w.right);	// 兄弟右孩子设为黑色
+					leftRotate(parent);	// 父节点左旋
+					n = this.root;	// n 设为根节点，然后退出循环
+					break;
+				}
+			} else {	// n为右孩子
+				w = parent.left;
+				// case1: x是“黑+黑”节点，x的兄弟节点是红色。(此时x的父节点和x的兄弟节点的子节点都是黑节点)。
+				if (isRed(w)) {
+					setBlack(w);	// 兄弟节点设为黑色
+					setRed(parent);	// 父节点设为红色
+					rightRotate(parent);	// 父节点左旋
+					w = parent.left;	// 寻找新的兄弟节点
+				}
+				// case2: x是“黑+黑”节点，x的兄弟节点是黑色，x的兄弟节点的两个孩子都是黑色。
+				if ((w.right == null || isBlack(w.right)) && (w.left == null || isBlack(w.left))) {
+					setRed(w);	// 兄弟节点设为红色
+					n = parent;	// 找到新的当前节点
+					parent = getParent(n);	// 找到新的父节点
+				} else {
+					if (w.left == null || isBlack(w.left)) {		// case3 :x是“黑+黑”节点，x的兄弟节点是黑色；x的兄弟节点的右孩子是红色，左孩子是黑色的。
+						setBlack(w.right);	// 兄弟节点的右孩子变红
+						setRed(w);
+						leftRotate(w);		// 兄弟节点左旋
+						w = parent.left;	// 左旋后，重新设置x的兄弟节点。
+					}
+					// case4: x是“黑+黑”节点，x的兄弟节点是黑色；x的兄弟节点的右孩子是红色的。
+					setColor(w, getColor(parent));	// 将x父节点颜色 赋值给 x的兄弟节点。
+					setBlack(parent);	// 父节点设为“黑色”。
+					setBlack(w.left);	// 兄弟左孩子设为黑色
+					rightRotate(parent);	// 父节点右旋
+					n = this.root;	// n 设为根节点，然后退出循环
+					break;
+				}
+			}
+		}
+		if (n != null) {
+			setBlack(n);
+		}
+	}
+
+	/**
+	 * 找到目标节点的后继节点
+	 * @param n
+	 * @return
+	 */
+	private RBTree<T>.RBTNode<T> successor(RBTree<T>.RBTNode<T> n) {
+		// TODO Auto-generated method stub
+		if (n.right != null) {	// 如果右节点不为空，则 n 的后继节点为 n.right的最小节点
+			return minNode(n.right);
+		} 
+		// 如果n没有右孩子。则x有以下两种可能：
+	    // 1. n是"一个左孩子"，则"n的后继结点"为 "它的父结点"。
+	    // 2. n是"一个右孩子"，则查找"n的最低的父结点，并且该父结点要具有左孩子"，找到的这个"最低的父结点"就是"n的后继结点"。
+		RBTNode<T> y = n.parent;
+		while(y != null && y.right == n) {
+			n = y;
+			y = y.parent;
+		}
+		return y;
+	}
+
+	public void print() {
+		if (this.root != null) {
+			print(this.root, root.key, 0);
+		}
+	}
+	
+	/*
+	 *  打印"红黑树"
+     *
+     * key        -- 节点的键值 
+     * direction  --  0，表示该节点是根节点
+     *               -1，表示该节点是它的父结点的左孩子;
+     *                1，表示该节点是它的父结点的右孩子。
+     */
+    private void print(RBTNode<T> tree, T key, int direction) {
+ 
+         if(tree != null) {
+ 
+             if(direction==0)    // tree是根节点
+                 System.out.printf("%2d(B) is root\n", tree.key);
+             else                // tree是分支节点
+                 System.out.printf("%2d(%s) is %2d's %6s child \n", tree.key, isRed(tree)?"R":"B", key, direction==1?"right" : "left");
+ 
+             print(tree.left, tree.key, -1);
+             print(tree.right,tree.key,  1);
+        }
+     }
 }
