@@ -14,6 +14,11 @@ package zw.algorithm.search;
  * @author 13479
  *
  */
+/**
+ * @author 13479
+ *
+ * @param <T>
+ */
 public class RBTree<T extends Comparable<T>> {
 	private RBTNode<T> root;	// 根节点
 	private static final boolean RED = false;
@@ -380,9 +385,6 @@ public class RBTree<T extends Comparable<T>> {
 		RBTNode<T> node;
 		if ((node = search(key)) != null) {	// 先找到节点，再删除该节点
 			remove(node);
-			System.out.println("查看平衡性");
-			print();
-			System.out.println();
 		}
 	}
 
@@ -402,6 +404,7 @@ public class RBTree<T extends Comparable<T>> {
 		// TODO Auto-generated method stub
 		RBTNode<T> replace;	// 用于取代被删除节点的位置
 		RBTNode<T> x; //缓存删除节点的子节点
+		RBTNode<T> parent;
 		if (n.left == null || n.right == null) {	// 没有或有一个子节点 
 			replace = n;
 		} else {	// 有两个子节点则找出后继节点
@@ -424,8 +427,15 @@ public class RBTree<T extends Comparable<T>> {
 		}
 		if (replace != n) // 将后继结点的值赋值给删除结点，再删除后继结点便间接实现了删除目标结点
 			n.key = replace.key;
+		
+		if (x == null) {
+			parent = replace.parent;
+		} else {
+			parent = x.parent;
+		}
+		
 		if (getColor(replace) == BLACK) {
-			deleteFixUp(x);
+			deleteFixUp(x, parent);
 		}
 		replace = null;	
 	}
@@ -434,9 +444,8 @@ public class RBTree<T extends Comparable<T>> {
 	 * 删除节点后红黑树失衡，重新平衡
 	 * @param n 待修正节点
 	 */
-	private void deleteFixUp(RBTree<T>.RBTNode<T> n) {
+	private void deleteFixUp(RBTree<T>.RBTNode<T> n, RBTree<T>.RBTNode<T> parent) {
 		// TODO Auto-generated method stub
-		RBTNode<T> parent = n.parent;
 		RBTNode<T> w;	// 兄弟节点
 		while ((n == null || isBlack(n)) && (n != this.root)) {
 			if (n == parent.left) {		// n为左孩子
@@ -540,16 +549,36 @@ public class RBTree<T extends Comparable<T>> {
      *                1，表示该节点是它的父结点的右孩子。
      */
     private void print(RBTNode<T> tree, T key, int direction) {
- 
          if(tree != null) {
- 
              if(direction==0)    // tree是根节点
                  System.out.printf("%2d(B) is root\n", tree.key);
              else                // tree是分支节点
                  System.out.printf("%2d(%s) is %2d's %6s child \n", tree.key, isRed(tree)?"R":"B", key, direction==1?"right" : "left");
- 
              print(tree.left, tree.key, -1);
              print(tree.right,tree.key,  1);
         }
      }
+    
+    
+    /**
+     * 销毁红黑树
+     * 
+     */
+    public void clear() {
+		destory(this.root);
+		this.root = null;
+	}
+
+	private void destory(RBTree<T>.RBTNode<T> n) {
+		// TODO Auto-generated method stub
+		if (n == null) {
+			return;
+		}
+		if (n.left != null) {
+			destory(n.left);
+		} else if (n.right != null) {
+			destory(n.right);
+		}
+		n = null;
+	}
 }
